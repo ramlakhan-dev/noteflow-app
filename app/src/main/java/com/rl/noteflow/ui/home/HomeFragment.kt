@@ -5,14 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.rl.noteflow.R
+import com.rl.noteflow.data.local.NoteDatabase
+import com.rl.noteflow.data.repository.NoteRepository
 import com.rl.noteflow.databinding.FragmentHomeBinding
+import com.rl.noteflow.ui.adapters.NoteAdapter
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var noteAdapter: NoteAdapter
 
 
     override fun onCreateView(
@@ -20,14 +27,34 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val noteDao = NoteDatabase.getDatabase(requireContext()).noteDao()
+        val noteRepository = NoteRepository(noteDao)
+        val homeFactory = HomeViewModelFactory(noteRepository)
+        homeViewModel = ViewModelProvider(this, homeFactory)[HomeViewModel::class]
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        noteAdapter = NoteAdapter()
+        binding.recyclerView.adapter = noteAdapter
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeNotesData()
         binding.fabBtnAdd.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_noteFragment)
+        }
+    }
+
+    private fun observeNotesData() {
+        homeViewModel.allNotes.observe(viewLifecycleOwner) { notes ->
+            if (notes.isEmpty()) {
+                binding.tvNoNotes.visibility = View.VISIBLE
+            } else {
+                binding.tvNoNotes.visibility = View.GONE
+                noteAdapter.updateList(notes)
+            }
         }
     }
 
