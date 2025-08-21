@@ -34,6 +34,11 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         holder.binding.root.setOnClickListener {
             listener?.onItemClick(note)
         }
+
+        holder.binding.root.setOnLongClickListener {
+            listener?.onItemLongClick(note)
+            true
+        }
     }
 
     override fun getItemCount(): Int {
@@ -59,6 +64,8 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(note: Note)
+
+        fun onItemLongClick(note: Note)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {

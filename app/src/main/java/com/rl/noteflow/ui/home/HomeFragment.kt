@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rl.noteflow.R
 import com.rl.noteflow.data.local.NoteDatabase
 import com.rl.noteflow.data.model.Note
@@ -57,9 +58,27 @@ class HomeFragment : Fragment() {
                 noteSharedViewModel.selectNote(note)
                 findNavController().navigate(R.id.action_homeFragment_to_noteDetailFragment)
             }
+
+
+            override fun onItemLongClick(note: Note) {
+                showDeleteNoteDialog(note)
+            }
         })
     }
 
+    private fun showDeleteNoteDialog(note: Note) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Delete Note")
+            .setMessage("Are you sure you want to delete this note?")
+            .setPositiveButton("Delete") { dialog, _ ->
+                homeViewModel.deleteNote(note)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
     private fun observeNotesData() {
         homeViewModel.allNotes.observe(viewLifecycleOwner) { notes ->
             if (notes.isEmpty()) {
