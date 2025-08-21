@@ -10,6 +10,7 @@ import com.rl.noteflow.databinding.LayoutEachNoteBinding
 
 class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private var notes: List<Note> = emptyList()
+    private var listener: OnItemClickListener? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -28,6 +29,10 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
             tvNoteTitle.text = note.title
             tvNoteDescription.text = limitWords(note.description, 30)
             tvNoteTimeStamp.text = DateFormat.getDateTimeInstance().format(note.timeStamp)
+        }
+
+        holder.binding.root.setOnClickListener {
+            listener?.onItemClick(note)
         }
     }
 
@@ -50,5 +55,13 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     fun updateList(notes: List<Note>) {
         this.notes = notes
         notifyDataSetChanged()
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(note: Note)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
     }
 }

@@ -10,9 +10,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rl.noteflow.R
 import com.rl.noteflow.data.local.NoteDatabase
+import com.rl.noteflow.data.model.Note
 import com.rl.noteflow.data.repository.NoteRepository
 import com.rl.noteflow.databinding.FragmentHomeBinding
 import com.rl.noteflow.ui.adapters.NoteAdapter
+import com.rl.noteflow.ui.viewmodel.NoteSharedViewModel
 
 class HomeFragment : Fragment() {
 
@@ -20,6 +22,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var noteAdapter: NoteAdapter
+    private lateinit var noteSharedViewModel: NoteSharedViewModel
 
 
     override fun onCreateView(
@@ -35,6 +38,8 @@ class HomeFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         noteAdapter = NoteAdapter()
         binding.recyclerView.adapter = noteAdapter
+
+        noteSharedViewModel = ViewModelProvider(requireActivity())[NoteSharedViewModel::class]
         return binding.root
     }
 
@@ -45,6 +50,13 @@ class HomeFragment : Fragment() {
         binding.fabBtnAdd.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_noteFragment)
         }
+
+        noteAdapter.setOnItemClickListener(object : NoteAdapter.OnItemClickListener {
+            override fun onItemClick(note: Note) {
+                noteSharedViewModel.selectNote(note)
+                findNavController().navigate(R.id.action_homeFragment_to_noteDetailFragment)
+            }
+        })
     }
 
     private fun observeNotesData() {
