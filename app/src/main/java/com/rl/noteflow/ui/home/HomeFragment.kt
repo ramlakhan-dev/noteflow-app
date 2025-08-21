@@ -48,6 +48,7 @@ class HomeFragment : Fragment() {
 
         observeNotesData()
         binding.fabBtnAdd.setOnClickListener {
+            noteSharedViewModel.selectNote(null)
             findNavController().navigate(R.id.action_homeFragment_to_noteFragment)
         }
 

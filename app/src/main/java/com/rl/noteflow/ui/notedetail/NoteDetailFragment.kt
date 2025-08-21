@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.rl.noteflow.R
+import com.rl.noteflow.data.model.Note
 import com.rl.noteflow.databinding.FragmentNoteDetailBinding
 import com.rl.noteflow.ui.viewmodel.NoteSharedViewModel
 import java.text.DateFormat
@@ -32,13 +34,19 @@ class NoteDetailFragment : Fragment() {
             findNavController().navigateUp()
         }
         observeNoteData()
+
+        binding.iBtnEdit.setOnClickListener {
+            findNavController().navigate(R.id.action_noteDetailFragment_to_noteFragment)
+        }
     }
 
     private fun observeNoteData() {
         noteSharedViewModel.selectedNote.observe(viewLifecycleOwner) { note ->
-            binding.tvTitle.text = note.title
-            binding.tvDescription.text = note.description
-            binding.tvTimeStamp.text = DateFormat.getDateTimeInstance().format(note.timeStamp)
+            if (note != null) {
+                binding.tvTitle.text = note.title
+                binding.tvDescription.text = note.description
+                binding.tvTimeStamp.text = DateFormat.getDateTimeInstance().format(note.timeStamp)
+            }
         }
     }
 

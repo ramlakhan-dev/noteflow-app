@@ -14,6 +14,12 @@ class NoteViewModel(private val noteRepository: NoteRepository): ViewModel() {
             noteRepository.addNote(note)
         }
     }
+
+    fun updateNote(note: Note) {
+        viewModelScope.launch {
+            noteRepository.updateNote(note)
+        }
+    }
 }
 
 class NoteViewModelFactory(private val noteRepository: NoteRepository): ViewModelProvider.Factory {

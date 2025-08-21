@@ -9,7 +9,7 @@ class NoteSharedViewModel: ViewModel() {
     private val _selectedNote = MutableLiveData<Note>()
     val selectedNote: LiveData<Note> get() = _selectedNote
 
-    fun selectNote(note: Note) {
+    fun selectNote(note: Note?) {
         _selectedNote.value = note
     }
 }
