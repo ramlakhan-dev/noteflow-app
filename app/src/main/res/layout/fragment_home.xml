@@ -29,7 +29,7 @@
         android:background="@drawable/bg_round"
         android:backgroundTint="?attr/colorSurfaceContainer"
         android:contentDescription="@string/favorite"
-        android:src="@drawable/ic_favorite"
+        android:src="@drawable/ic_favorite_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iBtnSearch"
         app:layout_constraintHorizontal_bias="1.0"

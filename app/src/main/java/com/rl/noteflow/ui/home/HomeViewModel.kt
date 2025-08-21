@@ -16,6 +16,12 @@ class HomeViewModel(private val noteRepository: NoteRepository): ViewModel() {
             noteRepository.deleteNote(note)
         }
     }
+
+    fun markFavorite(note: Note) {
+        viewModelScope.launch {
+            noteRepository.updateNote(note)
+        }
+    }
 }
 
 class HomeViewModelFactory(private val noteRepository: NoteRepository): ViewModelProvider.Factory {

@@ -5,10 +5,12 @@ import android.icu.text.DateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.rl.noteflow.R
 import com.rl.noteflow.data.model.Note
 import com.rl.noteflow.databinding.LayoutEachNoteBinding
+import com.rl.noteflow.ui.home.HomeViewModel
 
-class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(private val homeViewModel: HomeViewModel): RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private var notes: List<Note> = emptyList()
     private var listener: OnItemClickListener? = null
     override fun onCreateViewHolder(
@@ -29,6 +31,7 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
             tvNoteTitle.text = note.title
             tvNoteDescription.text = limitWords(note.description, 30)
             tvNoteTimeStamp.text = DateFormat.getDateTimeInstance().format(note.timeStamp)
+            if (note.isFavorite) iBtnMarkFavorite.setImageResource(R.drawable.ic_favorite) else iBtnMarkFavorite.setImageResource(R.drawable.ic_favorite_border)
         }
 
         holder.binding.root.setOnClickListener {
@@ -38,6 +41,19 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         holder.binding.root.setOnLongClickListener {
             listener?.onItemLongClick(note)
             true
+        }
+
+        holder.binding.iBtnMarkFavorite.setOnClickListener {
+            val newFavoriteState = !note.isFavorite
+            val currNote = note.copy(isFavorite = newFavoriteState)
+
+            val newIcon = if (newFavoriteState) {
+                R.drawable.ic_favorite
+            } else {
+                R.drawable.ic_favorite_border
+            }
+            holder.binding.iBtnMarkFavorite.setImageResource(newIcon)
+            homeViewModel.markFavorite(currNote)
         }
     }
 

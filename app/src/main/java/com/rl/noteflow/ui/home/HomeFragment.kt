@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
         homeViewModel = ViewModelProvider(this, homeFactory)[HomeViewModel::class]
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        noteAdapter = NoteAdapter()
+        noteAdapter = NoteAdapter(homeViewModel)
         binding.recyclerView.adapter = noteAdapter
 
         noteSharedViewModel = ViewModelProvider(requireActivity())[NoteSharedViewModel::class]
