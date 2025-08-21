@@ -8,6 +8,8 @@ class NoteRepository(private val noteDao: NoteDao) {
 
     val allNotes: LiveData<List<Note>> = noteDao.getAllNotes()
 
+    val allFavoriteNotes: LiveData<List<Note>> = noteDao.getAllFavoriteNotes()
+
     suspend fun addNote(note: Note) {
         noteDao.insert(note)
     }

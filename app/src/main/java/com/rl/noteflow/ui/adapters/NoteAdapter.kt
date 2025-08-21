@@ -10,7 +10,7 @@ import com.rl.noteflow.data.model.Note
 import com.rl.noteflow.databinding.LayoutEachNoteBinding
 import com.rl.noteflow.ui.home.HomeViewModel
 
-class NoteAdapter(private val homeViewModel: HomeViewModel): RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(private val onFavoriteMark: (Note) -> Unit): RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private var notes: List<Note> = emptyList()
     private var listener: OnItemClickListener? = null
     override fun onCreateViewHolder(
@@ -53,7 +53,7 @@ class NoteAdapter(private val homeViewModel: HomeViewModel): RecyclerView.Adapte
                 R.drawable.ic_favorite_border
             }
             holder.binding.iBtnMarkFavorite.setImageResource(newIcon)
-            homeViewModel.markFavorite(currNote)
+            onFavoriteMark(currNote)
         }
     }
 

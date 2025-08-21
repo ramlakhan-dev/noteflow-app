@@ -37,7 +37,9 @@ class HomeFragment : Fragment() {
         homeViewModel = ViewModelProvider(this, homeFactory)[HomeViewModel::class]
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        noteAdapter = NoteAdapter(homeViewModel)
+        noteAdapter = NoteAdapter{ note ->
+            homeViewModel.markFavorite(note)
+        }
         binding.recyclerView.adapter = noteAdapter
 
         noteSharedViewModel = ViewModelProvider(requireActivity())[NoteSharedViewModel::class]
@@ -51,6 +53,10 @@ class HomeFragment : Fragment() {
         binding.fabBtnAdd.setOnClickListener {
             noteSharedViewModel.selectNote(null)
             findNavController().navigate(R.id.action_homeFragment_to_noteFragment)
+        }
+
+        binding.iBtnFavorite.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_favoriteFragment)
         }
 
         noteAdapter.setOnItemClickListener(object : NoteAdapter.OnItemClickListener {
