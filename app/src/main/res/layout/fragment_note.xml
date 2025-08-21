@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.note.NoteFragment">
+
+
+    <ImageButton
+        android:id="@+id/iBtnBackNote"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_round"
+        android:backgroundTint="?attr/colorSurfaceContainer"
+        android:contentDescription="@string/arrow_back"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:tint="?attr/colorOnSurface" />
+
+    <ImageButton
+        android:id="@+id/iBtnSaveNote"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_round"
+        android:backgroundTint="?attr/colorSurfaceContainer"
+        android:contentDescription="@string/save"
+        android:src="@drawable/ic_save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:tint="?attr/colorOnSurface" />
+
+    <EditText
+        android:id="@+id/etTitleNote"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:autofillHints="text"
+        android:background="@null"
+        android:ems="10"
+        android:hint="@string/title"
+        android:inputType="text"
+        android:textColorHint="?attr/colorOnSurfaceVariant"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iBtnBackNote"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_max="488dp" />
+
+    <EditText
+        android:id="@+id/etDescriptionNote"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:autofillHints="text"
+        android:background="@null"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/description"
+        android:inputType="textMultiLine"
+        android:textColorHint="?attr/colorOnSurfaceVariant"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTitleNote"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_max="488dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

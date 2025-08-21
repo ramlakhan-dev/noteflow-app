@@ -1,34 +1,28 @@
-package com.rl.noteflow.ui.home
+package com.rl.noteflow.ui.note
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.rl.noteflow.R
-import com.rl.noteflow.databinding.FragmentHomeBinding
+import com.rl.noteflow.databinding.FragmentNoteBinding
 
-class HomeFragment : Fragment() {
-
-    private var _binding: FragmentHomeBinding? = null
+class NoteFragment : Fragment() {
+    private var _binding: FragmentNoteBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+    ): View {
+        _binding = FragmentNoteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.fabBtnAdd.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_noteFragment)
-        }
     }
 
     override fun onDestroyView() {
