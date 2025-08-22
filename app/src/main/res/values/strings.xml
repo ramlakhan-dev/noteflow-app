@@ -13,4 +13,5 @@
     <string name="edit">Edit</string>
     <string name="favorites">Favorites</string>
     <string name="no_favorites">No favorites</string>
+    <string name="search_notes">Search notes</string>
 </resources>

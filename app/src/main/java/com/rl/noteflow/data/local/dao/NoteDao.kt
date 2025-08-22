@@ -17,6 +17,10 @@ interface NoteDao {
     @Query("SELECT * FROM notes WHERE isFavorite = 1 ORDER BY timeStamp DESC")
     fun getAllFavoriteNotes(): LiveData<List<Note>>
 
+    @Query("SELECT * FROM notes WHERE title LIKE :query OR description LIKE :query ORDER BY timeStamp DESC")
+    fun searchNotes(query: String): LiveData<List<Note>>
+
+
     @Insert
     suspend fun insert(note: Note)
 

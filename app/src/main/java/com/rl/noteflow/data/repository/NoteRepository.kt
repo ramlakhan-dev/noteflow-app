@@ -10,6 +10,10 @@ class NoteRepository(private val noteDao: NoteDao) {
 
     val allFavoriteNotes: LiveData<List<Note>> = noteDao.getAllFavoriteNotes()
 
+    fun searchNotes(query: String): LiveData<List<Note>> {
+        return noteDao.searchNotes("%$query%")
+    }
+
     suspend fun addNote(note: Note) {
         noteDao.insert(note)
     }
