@@ -11,10 +11,14 @@ import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.rl.noteflow.R
 import com.rl.noteflow.data.local.NoteDatabase
+import com.rl.noteflow.data.model.Note
 import com.rl.noteflow.data.repository.NoteRepository
 import com.rl.noteflow.databinding.FragmentSearchBinding
 import com.rl.noteflow.ui.adapters.NoteAdapter
+import com.rl.noteflow.ui.viewmodel.NoteSharedViewModel
 
 class SearchFragment : Fragment() {
 
@@ -22,6 +26,7 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var searchViewModel: SearchViewModel
     private lateinit var noteAdapter: NoteAdapter
+    private lateinit var noteSharedViewModel: NoteSharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +41,8 @@ class SearchFragment : Fragment() {
         binding.recyclerViewSearch.layoutManager = LinearLayoutManager(requireContext())
         noteAdapter = NoteAdapter{}
         binding.recyclerViewSearch.adapter = noteAdapter
+
+        noteSharedViewModel = ViewModelProvider(requireActivity())[NoteSharedViewModel::class]
         return binding.root
     }
 
@@ -60,6 +67,31 @@ class SearchFragment : Fragment() {
                 false
             }
         }
+        noteAdapter.setOnItemClickListener(object : NoteAdapter.OnItemClickListener {
+            override fun onItemClick(note: Note) {
+                noteSharedViewModel.selectNote(note)
+                findNavController().navigate(R.id.action_searchFragment_to_noteDetailFragment)
+            }
+
+
+            override fun onItemLongClick(note: Note) {
+                showDeleteNoteDialog(note)
+            }
+        })
+    }
+
+    private fun showDeleteNoteDialog(note: Note) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Delete Note")
+            .setMessage("Are you sure you want to delete this note?")
+            .setPositiveButton("Delete") { dialog, _ ->
+                searchViewModel.deleteNote(note)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun observeNotesData() {

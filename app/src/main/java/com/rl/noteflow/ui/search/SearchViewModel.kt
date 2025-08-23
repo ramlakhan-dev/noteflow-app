@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.rl.noteflow.data.model.Note
 import com.rl.noteflow.data.repository.NoteRepository
+import kotlinx.coroutines.launch
 
 class SearchViewModel(private val noteRepository: NoteRepository) : ViewModel() {
 
@@ -15,6 +17,12 @@ class SearchViewModel(private val noteRepository: NoteRepository) : ViewModel() 
     fun searchNotes(query: String) {
         noteRepository.searchNotes(query).observeForever { result ->
             _notes.value = result
+        }
+    }
+
+    fun deleteNote(note: Note) {
+        viewModelScope.launch {
+            noteRepository.deleteNote(note)
         }
     }
 }
